@@ -46,3 +46,10 @@ TEST(DNASequenceBasicTests, DNASequenceCodonTester)
     ASSERT_FALSE(CodonAnalyzer::isEndingCodon("GGG"));
     ASSERT_FALSE(CodonAnalyzer::isEndingCodon("TTT"));
 }
+
+
+TEST(DNASequenceBasicTests, DNASequenceSlicingAndPairing)
+{
+    DNASequence dnaSequence("ATGCAGTCAACTAG");
+    ASSERT_TRUE(dnaSequence.slice(5, 7))
+}

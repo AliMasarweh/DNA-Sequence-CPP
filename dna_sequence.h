@@ -81,6 +81,8 @@ public:
     std::vector<DNASequence> findAll(std::string seq) const;
     std::vector<std::pair<size_t , size_t> > findConsensus() const;
 
+    std::string asString() const;
+
 private:
     size_t findEndingCodonAndCount(size_t i, std::vector<size_t> vector,
             size_t i1) const;

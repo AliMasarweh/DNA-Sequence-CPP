@@ -212,7 +212,7 @@ size_t DNASequence::findEndingCodonAndCount(size_t startingIndx,
 
             break;
         }
-        
+
         if(CodonAnalyzer::isStartingCodon(
                 m_sequence->substr(i - 1,
                         i - 1 + CodonAnalyzer::codonLength).c_str()))
@@ -222,4 +222,10 @@ size_t DNASequence::findEndingCodonAndCount(size_t startingIndx,
     }
 
     return ending;
+}
+
+string DNASequence::asString() const {
+    stringstream ss;
+    ss << * this;
+    return ss.str();
 }
