@@ -5,14 +5,16 @@
 #include "codon_analyzer.h"
 
 using namespace std;
+
+string CodonAnalyzer::endingCodon[] = { "TAG", "TAA", "TGA" };
+string CodonAnalyzer::startingCodon = "ATG";
+
 // should be inline??
 bool CodonAnalyzer::isStartingCodon(std::string &codon) {
-    static string startingCodon = "ATG";
     return codon == startingCodon;
 }
 
 bool CodonAnalyzer::isEndingCodon(std::string &codon) {
-    static string endingCodon[] = { "TAG", "TAA", "TGA" };
     for (int i = 0; i < sizeof(endingCodon)/sizeof(endingCodon[0]); ++i) {
         if(endingCodon[i] == codon)
             return true;

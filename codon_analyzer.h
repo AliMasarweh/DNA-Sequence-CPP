@@ -13,5 +13,8 @@ public:
     static bool isStartingCodon(std::string& codon);
     static bool isEndingCodon(const char* codon);
     static bool isEndingCodon(std::string& codon);
+
+    static std::string startingCodon;
+    static std::string endingCodon[];
 };
 #endif //DNA_SEQUENCE_CODON_ANALYZER_H

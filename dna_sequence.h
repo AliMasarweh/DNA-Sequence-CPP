@@ -7,6 +7,7 @@
 
 #include <ostream>
 #include <map>
+#include <vector>
 
 #include "nucleotide_analyzer.h"
 #include "codon_analyzer.h"
@@ -17,10 +18,34 @@ public:
     DNASequenceException(const std::string& message) : std::runtime_error(message) {}
 };
 
-class InvalidNucleotideSequenceDNA : public DNASequenceException
+class InvalidNucleotideDNASequence : public DNASequenceException
 {
 public:
-    InvalidNucleotideSequenceDNA(const std::string& message = "Bad Nucleotide!") : DNASequenceException(message) {}
+    InvalidNucleotideDNASequence(const std::string& message = "Bad Nucleotide!") : DNASequenceException(message) {}
+};
+
+class InvalidDNASequence : public DNASequenceException
+{
+public:
+    InvalidDNASequence(const std::string& message = "Bad DNA Sequence!") : DNASequenceException(message) {}
+};
+
+class InvalidSlicingDNASequence : public DNASequenceException
+{
+public:
+    InvalidSlicingDNASequence(const std::string& message) : DNASequenceException(message) {}
+};
+
+class OutOfBoundsSlicingDNASequence : public InvalidSlicingDNASequence
+{
+public:
+    OutOfBoundsSlicingDNASequence(const std::string& message = "Out of bounds slicing!") : InvalidSlicingDNASequence(message) {}
+};
+
+class InvalidIndexesSlicingDNASequence : public InvalidSlicingDNASequence
+{
+public:
+    InvalidIndexesSlicingDNASequence(const std::string& message = "Worng indexing!") : InvalidSlicingDNASequence(message) {}
 };
 
 
@@ -48,6 +73,13 @@ public:
     char operator[](size_t index);
 
     bool validSequence() const;
+
+    DNASequence slice(size_t startingIndx) const;
+    DNASequence slice(size_t startingIndx, size_t endingIndx) const;
+    DNASequence pairing() const;
+    DNASequence find(std::string seq) const;
+    std::vector<DNASequence> findAll(std::string seq) const;
+    std::vector<std::pair<size_t , size_t> > findConsensus() const;
 
 private:
     std::string* m_sequence;

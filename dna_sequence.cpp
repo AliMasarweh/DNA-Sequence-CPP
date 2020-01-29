@@ -4,11 +4,12 @@
 //
 
 #include "dna_sequence.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
-std::map<char,char> DNASequence::constructCounterpart(){
-    std::map<char,char> m;
+map<char,char> DNASequence::constructCounterpart(){
+    map<char,char> m;
     m['A'] = 'T';
     m['T'] = 'A';
     m['G'] = 'C';
@@ -16,21 +17,21 @@ std::map<char,char> DNASequence::constructCounterpart(){
     return m;
 }
 
-const std::map<char,char> DNASequence::s_counterpartMapper
+const map<char,char> DNASequence::s_counterpartMapper
         =  DNASequence::constructCounterpart();
 
 DNASequence::DNASequence(const char *dnaSeq): m_sequence(new string(dnaSeq)) {
     if(!this->validSequence()){
         delete this->m_sequence;
-        throw InvalidNucleotideSequenceDNA();
+        throw InvalidNucleotideDNASequence();
     }
 }
 
 
-DNASequence::DNASequence(const std::string &dnaSeq):m_sequence(new string(dnaSeq)) {
+DNASequence::DNASequence(const string &dnaSeq):m_sequence(new string(dnaSeq)) {
     if(!this->validSequence()){
         delete this->m_sequence;
-        throw InvalidNucleotideSequenceDNA();
+        throw InvalidNucleotideDNASequence();
     }
 }
 
@@ -45,7 +46,7 @@ DNASequence &DNASequence::operator=(const DNASequence &dnaSequence) {
     return *this;
 }
 
-DNASequence &DNASequence::operator=(const std::string &dnaSeq) {
+DNASequence &DNASequence::operator=(const string &dnaSeq) {
     if(*this->m_sequence != dnaSeq) {
         delete this->m_sequence;
         this->m_sequence = new string(dnaSeq);
@@ -86,7 +87,7 @@ char DNASequence::operator[](size_t index) {
     return this->m_sequence->at(index);
 }
 
-std::ostream &operator<<(std::ostream &os, const DNASequence &dna) {
+ostream &operator<<(ostream &os, const DNASequence &dna) {
     os << * dna.m_sequence;
     return os;
 }
@@ -122,4 +123,65 @@ bool DNASequence::validSequence() const {
     }
 
     return true;
+}
+
+DNASequence DNASequence::slice(size_t startingIndx) const {
+    return DNASequence(m_sequence->substr(startingIndx));
+}
+
+DNASequence DNASequence::slice(size_t startingIndx, size_t endingIndx) const {
+    if(endingIndx <= startingIndx)
+        throw InvalidIndexesSlicingDNASequence();
+    if(startingIndx < 0 || endingIndx > m_sequence->length())
+        throw OutOfBoundsSlicingDNASequence();
+    return DNASequence(m_sequence->substr(startingIndx, endingIndx));
+}
+
+DNASequence DNASequence::pairing() const {
+    DNASequence tmp = this->theOtherStrand();
+    reverse(tmp.m_sequence->begin(), tmp.m_sequence->end());
+
+    return tmp;
+}
+
+DNASequence DNASequence::find(string seq) const {
+    size_t indx = m_sequence->find(seq);
+    if(indx == string::npos)
+        throw DNASequenceException("Seqeunce is not found!");
+    return slice(indx, indx + seq.length());
+}
+
+vector<DNASequence> DNASequence::findAll(string seq) const {
+    vector<DNASequence> ans;
+    size_t found = 0;
+    while(found != string::npos){
+        found = m_sequence->find(seq);
+        ans.push_back(slice(found, found + seq.length()));
+    }
+    return ans;
+    const pair<int, int> &x = make_pair(1, 1);
+}
+
+vector<pair<size_t , size_t> > DNASequence::findConsensus() const{
+    vector<pair<size_t , size_t> > ans;
+    vector<size_t> startingOcurr;
+    size_t startingIndx = 0, nextStart = 0, endingIndx;
+    while(startingIndx != string::npos){
+        startingIndx = m_sequence->find(CodonAnalyzer::startingCodon);
+        startingOcurr.push_back(startingIndx);
+        endingIndx = this->findEndingCodonAndCount(startingIndx,
+                startingOcurr, nextStart);
+        if(endingIndx == -1){
+            break;
+        }
+        vector<size_t>::iterator it = startingOcurr.begin();
+        while (it != startingOcurr.end()) {
+            ans.push_back(make_pair(*it, endingIndx));
+            ++it;
+        }
+        startingIndx = nextStart;
+        startingOcurr.clear();
+    }
+
+    return ans;
 }

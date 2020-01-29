@@ -30,7 +30,7 @@ TEST(DNASequenceBasicTests, DNASequenceComplementaryTest)
 TEST(DNASequenceBasicTests, DNASequenceInvalidSequence)
 {
     ASSERT_THROW(DNASequence ("ATGCAGTCAACTAGZ"),
-            InvalidNucleotideSequenceDNA);
+            InvalidNucleotideDNASequence);
 }
 
 TEST(DNASequenceBasicTests, DNASequenceCodonTester)
