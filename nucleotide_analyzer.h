@@ -2,10 +2,11 @@
 // Created by ali-masa on 1/18/20.
 //
 
-#ifndef DNA_SEQUENCE_DNA_ANALYZER_H
-#define DNA_SEQUENCE_DNA_ANALYZER_H
+#ifndef DNA_SEQUENCE_NUCLEOTIDE_ANALYZER_H
+#define DNA_SEQUENCE_NUCLEOTIDE_ANALYZER_H
 
-class DNAAnalyzer{
-
+class NucleotideAnalyzer{
+public:
+    static bool isValidNucleotide(char nucleotide);
 };
-#endif //DNA_SEQUENCE_DNA_ANALYZER_H
+#endif //DNA_SEQUENCE_NUCLEOTIDE_ANALYZER_H

@@ -4,8 +4,8 @@
 //
 
 #include "dna_sequence.h"
+#include "nucleotide_analyzer.h"
 using namespace std;
-using namespace dna_analyzer;
 
 std::map<char,char> DNASequence::constructCounterpart(){
     std::map<char,char> m;
@@ -19,9 +19,20 @@ std::map<char,char> DNASequence::constructCounterpart(){
 const std::map<char,char> DNASequence::s_counterpartMapper
         =  DNASequence::constructCounterpart();
 
-DNASequence::DNASequence(const char *dnaSeq):m_sequence(new string(dnaSeq)) {}
+DNASequence::DNASequence(const char *dnaSeq): m_sequence(new string(dnaSeq)) {
+    if(!this->validSequence()){
+        delete this->m_sequence;
+        throw InvalidNucleotideSequenceDNA();
+    }
+}
 
-DNASequence::DNASequence(const std::string &dnaSeq):m_sequence(new string(dnaSeq)) {}
+
+DNASequence::DNASequence(const std::string &dnaSeq):m_sequence(new string(dnaSeq)) {
+    if(!this->validSequence()){
+        delete this->m_sequence;
+        throw InvalidNucleotideSequenceDNA();
+    }
+}
 
 DNASequence::DNASequence(const DNASequence &dnaSequence)
         :m_sequence(new string(*dnaSequence.m_sequence)) {}
@@ -50,7 +61,7 @@ DNASequence &DNASequence::operator=(const char *dnaSeq) {
     return *this;
 }
 
-DNASequence &DNASequence::theOtherStrand() {
+DNASequence DNASequence::theOtherStrand() const {
     DNASequence ans(*this);
     for (int i = 0; i < this->m_sequence->size(); ++i) {
         ans.m_sequence->at(i) = DNASequence::s_counterpartMapper.at(ans.m_sequence->at(i));
@@ -76,7 +87,7 @@ char DNASequence::operator[](size_t index) {
 }
 
 std::ostream &operator<<(std::ostream &os, const DNASequence &dna) {
-    os << dna.m_sequence;
+    os << * dna.m_sequence;
     return os;
 }
 
@@ -102,4 +113,13 @@ bool operator<=(const DNASequence &dna1, const DNASequence &dna2) {
 
 bool operator>=(const DNASequence &dna1, const DNASequence &dna2) {
     return !(dna1 < dna2);
+}
+
+bool DNASequence::validSequence() const {
+    for (int i = 0; i < this->m_sequence->length(); ++i) {
+        if(!NucleotideAnalyzer::isValidNucleotide(this->m_sequence->at(i)))
+            return false;
+    }
+
+    return true;
 }
