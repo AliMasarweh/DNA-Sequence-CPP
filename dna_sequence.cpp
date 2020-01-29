@@ -5,6 +5,19 @@
 
 #include "dna_sequence.h"
 using namespace std;
+using namespace dna_analyzer;
+
+std::map<char,char> DNASequence::constructCounterpart(){
+    std::map<char,char> m;
+    m['A'] = 'T';
+    m['T'] = 'A';
+    m['G'] = 'C';
+    m['C'] = 'G';
+    return m;
+}
+
+const std::map<char,char> DNASequence::s_counterpartMapper
+        =  DNASequence::constructCounterpart();
 
 DNASequence::DNASequence(const char *dnaSeq):m_sequence(new string(dnaSeq)) {}
 
@@ -40,7 +53,7 @@ DNASequence &DNASequence::operator=(const char *dnaSeq) {
 DNASequence &DNASequence::theOtherStrand() {
     DNASequence ans(*this);
     for (int i = 0; i < this->m_sequence->size(); ++i) {
-        ans.m_sequence[i] = DNASequence::s_counterpartMapper[ans.m_sequence[i]];
+        ans.m_sequence->at(i) = DNASequence::s_counterpartMapper.at(ans.m_sequence->at(i));
     }
 
     return ans;

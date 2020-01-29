@@ -34,20 +34,9 @@ public:
 
 private:
     std::string* m_sequence;
-    static std::map<char,char> constructCounterpart()
-    {
-        std::map<char,char> m;
-        m['A'] = 'T';
-        m['T'] = 'A';
-        m['G'] = 'C';
-        m['C'] = 'G';
-        return m;
-    }
+    static std::map<char,char> constructCounterpart();
     static const std::map<char,char> s_counterpartMapper;
 
 };
-
-const std::map<char,char> DNASequence::s_counterpartMapper
-                            =  DNASequence::constructCounterpart();
 
 #endif //DNA_SEQUENCE_DNA_SEQUENCE_H
