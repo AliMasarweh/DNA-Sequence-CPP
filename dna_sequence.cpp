@@ -144,19 +144,19 @@ DNASequence DNASequence::pairing() const {
     return tmp;
 }
 
-DNASequence DNASequence::find(string seq) const {
+size_t DNASequence::find(string seq) const {
     size_t indx = m_sequence->find(seq);
     if(indx == string::npos)
         throw DNASequenceException("Seqeunce is not found!");
-    return slice(indx, indx + seq.length());
+    return indx;
 }
 
-vector<DNASequence> DNASequence::findAll(string seq) const {
-    vector<DNASequence> ans;
+vector<size_t> DNASequence::findAll(string seq) const {
+    vector<size_t> ans;
     size_t found = 0;
     while(found != string::npos){
         found = m_sequence->find(seq);
-        ans.push_back(slice(found, found + seq.length()));
+        ans.push_back(found);
     }
     return ans;
     const pair<int, int> &x = make_pair(1, 1);

@@ -47,9 +47,28 @@ TEST(DNASequenceBasicTests, DNASequenceCodonTester)
     ASSERT_FALSE(CodonAnalyzer::isEndingCodon("TTT"));
 }
 
-
-TEST(DNASequenceBasicTests, DNASequenceSlicingAndPairing)
+TEST(DNASequenceBasicTests, DNASequenceSlicing)
 {
-    DNASequence dnaSequence("ATGCAGTCAACTAG");
-    ASSERT_TRUE(dnaSequence.slice(5, 7))
+    string str = "ATGCAGTCAACTAG";
+    DNASequence dnaSequence(str);
+    for (int i = 0; i < str.length() - 1; ++i) {
+        for (int j = i + 1; j < str.length(); ++j) {
+            ASSERT_EQ(str.substr(i, j), dnaSequence.slice(i, j).asString());
+        }
+    }
+}
+
+TEST(DNASequenceBasicTests, DNASequencePairing)
+{
+    string str = "ATGCAGTCAACTAG", str2 = "TACGTCAGTTGATC";
+    DNASequence dnaSequence(str);
+    reverse(str2.begin(), str2.end());
+    ASSERT_EQ(str2, dnaSequence.pairing().asString());
+}
+
+TEST(DNASequenceBasicTests, DNASequenceFindAndFindAll)
+{
+    string str = "ATGCAGTCAACTAG", str2 = "TACGTCAGTTGATC";
+    DNASequence dnaSequence(str);
+    ASSERT_EQ(dnaSequence.find("CAGTC"), 3);
 }

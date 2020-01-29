@@ -77,8 +77,8 @@ public:
     DNASequence slice(size_t startingIndx) const;
     DNASequence slice(size_t startingIndx, size_t endingIndx) const;
     DNASequence pairing() const;
-    DNASequence find(std::string seq) const;
-    std::vector<DNASequence> findAll(std::string seq) const;
+    size_t find(std::string seq) const;
+    std::vector<size_t> findAll(std::string seq) const;
     std::vector<std::pair<size_t , size_t> > findConsensus() const;
 
     std::string asString() const;
