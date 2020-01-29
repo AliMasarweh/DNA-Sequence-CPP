@@ -8,6 +8,8 @@
 #include <ostream>
 #include <map>
 
+#include "nucleotide_analyzer.h"
+#include "codon_analyzer.h"
 
 class DNASequenceException : public std::runtime_error
 {

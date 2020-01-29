@@ -4,7 +4,7 @@
 //
 
 #include "dna_sequence.h"
-#include "nucleotide_analyzer.h"
+
 using namespace std;
 
 std::map<char,char> DNASequence::constructCounterpart(){

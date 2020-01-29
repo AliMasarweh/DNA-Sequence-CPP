@@ -33,3 +33,16 @@ TEST(DNASequenceBasicTests, DNASequenceInvalidSequence)
             InvalidNucleotideSequenceDNA);
 }
 
+TEST(DNASequenceBasicTests, DNASequenceCodonTester)
+{
+
+    ASSERT_TRUE(CodonAnalyzer::isStartingCodon("ATG"));
+    ASSERT_FALSE(CodonAnalyzer::isStartingCodon("GGG"));
+    ASSERT_FALSE(CodonAnalyzer::isStartingCodon("TTT"));
+
+    ASSERT_TRUE(CodonAnalyzer::isEndingCodon("TAG"));
+    ASSERT_TRUE(CodonAnalyzer::isEndingCodon("TAA"));
+    ASSERT_TRUE(CodonAnalyzer::isEndingCodon("TGA"));
+    ASSERT_FALSE(CodonAnalyzer::isEndingCodon("GGG"));
+    ASSERT_FALSE(CodonAnalyzer::isEndingCodon("TTT"));
+}
