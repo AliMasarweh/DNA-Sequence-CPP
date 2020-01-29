@@ -185,3 +185,41 @@ vector<pair<size_t , size_t> > DNASequence::findConsensus() const{
 
     return ans;
 }
+
+void DNASequence::ifIntersectsWithStartingCodonRemoveAndGoStepBack(size_t i,
+        size_t& ending, vector<size_t>& startingOccurance) const
+{
+    if(CodonAnalyzer::isStartingCodon(
+            m_sequence->substr(i - 1, i - 1 + CodonAnalyzer::codonLength)
+                    .c_str())){
+        --ending;
+        startingOccurance.pop_back();
+    }
+}
+
+size_t DNASequence::findEndingCodonAndCount(size_t startingIndx,
+        vector<size_t> startingOccurance, size_t nextStart) const {
+    size_t ending = -1, i = startingIndx + CodonAnalyzer::codonLength;
+    for(;i < m_sequence->length();++i){
+        if (CodonAnalyzer::isEndingCodon(
+                m_sequence->substr(i, i + CodonAnalyzer::codonLength)
+                .c_str()))
+        {
+            ending = i;
+
+            ifIntersectsWithStartingCodonRemoveAndGoStepBack(i, ending,
+                    startingOccurance);
+
+            break;
+        }
+        
+        if(CodonAnalyzer::isStartingCodon(
+                m_sequence->substr(i - 1,
+                        i - 1 + CodonAnalyzer::codonLength).c_str()))
+        {
+            startingOccurance.push_back(i);
+        }
+    }
+
+    return ending;
+}

@@ -82,6 +82,10 @@ public:
     std::vector<std::pair<size_t , size_t> > findConsensus() const;
 
 private:
+    size_t findEndingCodonAndCount(size_t i, std::vector<size_t> vector,
+            size_t i1) const;
+    void ifIntersectsWithStartingCodonRemoveAndGoStepBack(size_t i,
+            size_t &ending, std::vector<size_t> &startingOccurance) const;
     std::string* m_sequence;
     static std::map<char,char> constructCounterpart();
     static const std::map<char,char> s_counterpartMapper;

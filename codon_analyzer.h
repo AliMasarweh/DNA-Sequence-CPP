@@ -16,5 +16,6 @@ public:
 
     static std::string startingCodon;
     static std::string endingCodon[];
+    static size_t codonLength;
 };
 #endif //DNA_SEQUENCE_CODON_ANALYZER_H

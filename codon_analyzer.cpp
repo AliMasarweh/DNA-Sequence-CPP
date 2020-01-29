@@ -8,7 +8,7 @@ using namespace std;
 
 string CodonAnalyzer::endingCodon[] = { "TAG", "TAA", "TGA" };
 string CodonAnalyzer::startingCodon = "ATG";
-
+size_t CodonAnalyzer::codonLength = 3;
 // should be inline??
 bool CodonAnalyzer::isStartingCodon(std::string &codon) {
     return codon == startingCodon;
