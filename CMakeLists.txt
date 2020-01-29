@@ -3,4 +3,7 @@ project(DNA_Sequence)
 
 set(CMAKE_CXX_STANDARD 98)
 
-add_executable(DNA_Sequence main.cpp dna_sequence.h dna_sequence.cpp main.cpp)
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
+add_executable(testDNA_Sequence test_dnasequence.cpp dna_sequence.h dna_sequence.cpp nucleotide_analyzer.h)
+target_link_libraries(testDNA_Sequence gtest gtest_main pthread)
