@@ -3,8 +3,11 @@
 // Created by ali-masa on 1/17/20.
 //
 
-#include "dna_sequence.h"
+#include <iostream>
+#include <fstream>
 #include <bits/stdc++.h>
+#include "dna_sequence.h"
+
 
 using namespace std;
 
@@ -147,6 +150,7 @@ DNASequence DNASequence::pairing() const {
 size_t DNASequence::find(string seq) const {
     size_t indx = m_sequence->find(seq);
     if(indx == string::npos)
+        // return -1;
         throw DNASequenceException("Seqeunce is not found!");
     return indx;
 }
@@ -159,7 +163,6 @@ vector<size_t> DNASequence::findAll(string seq) const {
         ans.push_back(found);
     }
     return ans;
-    const pair<int, int> &x = make_pair(1, 1);
 }
 
 vector<pair<size_t , size_t> > DNASequence::findConsensus() const{
@@ -168,6 +171,7 @@ vector<pair<size_t , size_t> > DNASequence::findConsensus() const{
     size_t startingIndx = 0, nextStart = 0, endingIndx;
     while(startingIndx != string::npos){
         startingIndx = m_sequence->find(CodonAnalyzer::startingCodon);
+        // check if startingIndx found
         startingOcurr.push_back(startingIndx);
         endingIndx = this->findEndingCodonAndCount(startingIndx,
                 startingOcurr, nextStart);
@@ -228,4 +232,20 @@ string DNASequence::asString() const {
     stringstream ss;
     ss << * this;
     return ss.str();
+}
+
+void DNASequence::writeToFile(string path) const {
+    ofstream file;
+    file.open(path.c_str());
+    file << this->asString() << endl;
+    file.close();
+}
+
+void DNASequence::readFromFile(string path) const {
+    ifstream file;
+    file.open(path.c_str());
+    string tmp;
+    getline(file, tmp);
+    *this->m_sequence = tmp;
+    file.close();
 }

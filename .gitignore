@@ -2,3 +2,4 @@
 **/cmake-build-debug
 **.o
 **.gch
+**/files_streaming_outputs

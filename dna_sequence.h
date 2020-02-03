@@ -5,10 +5,6 @@
 #ifndef DNA_SEQUENCE_DNA_SEQUENCE_H
 #define DNA_SEQUENCE_DNA_SEQUENCE_H
 
-#include <ostream>
-#include <map>
-#include <vector>
-
 #include "nucleotide_analyzer.h"
 #include "codon_analyzer.h"
 
@@ -82,6 +78,9 @@ public:
     std::vector<std::pair<size_t , size_t> > findConsensus() const;
 
     std::string asString() const;
+
+    void writeToFile(std::string path) const;
+    void readFromFile(std::string path) const;
 
 private:
     size_t findEndingCodonAndCount(size_t i, std::vector<size_t> vector,

@@ -47,7 +47,7 @@ TEST(DNASequenceBasicTests, DNASequenceCodonTester)
     ASSERT_FALSE(CodonAnalyzer::isEndingCodon("TTT"));
 }
 
-TEST(DNASequenceBasicTests, DNASequenceSlicing)
+TEST(DNASequenceManipulationTests, DNASequenceSlicing)
 {
     string str = "ATGCAGTCAACTAG";
     DNASequence dnaSequence(str);
@@ -58,7 +58,7 @@ TEST(DNASequenceBasicTests, DNASequenceSlicing)
     }
 }
 
-TEST(DNASequenceBasicTests, DNASequencePairing)
+TEST(DNASequenceManipulationTests, DNASequencePairing)
 {
     string str = "ATGCAGTCAACTAG", str2 = "TACGTCAGTTGATC";
     DNASequence dnaSequence(str);
@@ -66,9 +66,24 @@ TEST(DNASequenceBasicTests, DNASequencePairing)
     ASSERT_EQ(str2, dnaSequence.pairing().asString());
 }
 
-TEST(DNASequenceBasicTests, DNASequenceFindAndFindAll)
+TEST(DNASequenceManipulationTests, DNASequenceFindAndFindAll)
 {
     string str = "ATGCAGTCAACTAG", str2 = "TACGTCAGTTGATC";
     DNASequence dnaSequence(str);
     ASSERT_EQ(dnaSequence.find("CAGTC"), 3);
+}
+
+TEST(DNASequenceBasicStreaming, DNASequenceBasicFileWriting)
+{
+    string str = "ATGCAGTCAACTAG";
+    DNASequence dnaSequence(str);
+    dnaSequence.writeToFile("../files_streaming_outputs/output1.txt");
+}
+
+TEST(DNASequenceBasicStreaming, DNASequenceBasicFileReading)
+{
+    string str = "ATG";
+    DNASequence dnaSequence(str);
+    dnaSequence.readFromFile("../files_streaming_outputs/output1.txt");
+    ASSERT_EQ(dnaSequence, DNASequence("ATGCAGTCAACTAG"));
 }
