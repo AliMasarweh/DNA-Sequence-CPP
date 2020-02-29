@@ -11,6 +11,15 @@
 
 using namespace std;
 
+DNASequenceException::DNASequenceException(const string &message)
+    :m_msg(message) {}
+
+DNASequenceException::~DNASequenceException() throw() {}
+
+const char *DNASequenceException::what() const throw() {
+    return ("Exception: " + m_msg).c_str();
+}
+
 map<char,char> DNASequence::constructCounterpart(){
     map<char,char> m;
     m['A'] = 'T';
@@ -96,11 +105,11 @@ ostream &operator<<(ostream &os, const DNASequence &dna) {
 }
 
 bool operator<(const DNASequence &dna1, const DNASequence &dna2) {
-    return dna1.m_sequence < dna2.m_sequence;
+    return *dna1.m_sequence < *dna2.m_sequence;
 }
 
 bool operator>(const DNASequence &dna1, const DNASequence &dna2) {
-    return dna2 > dna1;
+    return dna2 < dna1;
 }
 
 bool operator==(const DNASequence &dna1, const DNASequence &dna2) {
@@ -249,3 +258,5 @@ void DNASequence::readFromFile(string path) const {
     *this->m_sequence = tmp;
     file.close();
 }
+
+

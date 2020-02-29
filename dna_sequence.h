@@ -8,22 +8,27 @@
 #include "nucleotide_analyzer.h"
 #include "codon_analyzer.h"
 
-class DNASequenceException : public std::runtime_error
+class DNASequenceException : public std::exception
 {
 public:
-    DNASequenceException(const std::string& message) : std::runtime_error(message) {}
+    explicit DNASequenceException(const std::string& message);
+    virtual ~DNASequenceException() throw ();
+    virtual const char* what() const throw ();
+
+protected:
+    std::string m_msg;
 };
 
 class InvalidNucleotideDNASequence : public DNASequenceException
 {
 public:
-    InvalidNucleotideDNASequence(const std::string& message = "Bad Nucleotide!") : DNASequenceException(message) {}
+    InvalidNucleotideDNASequence() : DNASequenceException("Bad Nucleotide!") {}
 };
 
 class InvalidDNASequence : public DNASequenceException
 {
 public:
-    InvalidDNASequence(const std::string& message = "Bad DNA Sequence!") : DNASequenceException(message) {}
+    InvalidDNASequence() : DNASequenceException("Bad DNA Sequence!") {}
 };
 
 class InvalidSlicingDNASequence : public DNASequenceException
@@ -35,13 +40,13 @@ public:
 class OutOfBoundsSlicingDNASequence : public InvalidSlicingDNASequence
 {
 public:
-    OutOfBoundsSlicingDNASequence(const std::string& message = "Out of bounds slicing!") : InvalidSlicingDNASequence(message) {}
+    OutOfBoundsSlicingDNASequence() : InvalidSlicingDNASequence("Out of bounds slicing!") {}
 };
 
 class InvalidIndexesSlicingDNASequence : public InvalidSlicingDNASequence
 {
 public:
-    InvalidIndexesSlicingDNASequence(const std::string& message = "Worng indexing!") : InvalidSlicingDNASequence(message) {}
+    InvalidIndexesSlicingDNASequence() : InvalidSlicingDNASequence("Worng indexing!") {}
 };
 
 
