@@ -5,6 +5,9 @@
 #ifndef DNA_SEQUENCE_DNA_SEQUENCE_H
 #define DNA_SEQUENCE_DNA_SEQUENCE_H
 
+#include <vector>
+#include <map>
+
 #include "nucleotide_analyzer.h"
 #include "codon_analyzer.h"
 
@@ -68,7 +71,7 @@ public:
     DNASequence& operator=(const std::string&  dnaSeq);
     DNASequence& operator=(const char dnaSeq[]);
     DNASequence theOtherStrand() const;
-    ~DNASequence();
+    virtual ~DNASequence();
     size_t length() const;
     const char& operator[](size_t index) const;
     char operator[](size_t index);
@@ -85,14 +88,17 @@ public:
     std::string asString() const;
 
     void writeToFile(std::string path) const;
-    void readFromFile(std::string path) const;
+    void readFromFile(std::string path);
+
+protected:
+    std::string m_sequence;
 
 private:
     size_t findEndingCodonAndCount(size_t i, std::vector<size_t> vector,
             size_t i1) const;
     void ifIntersectsWithStartingCodonRemoveAndGoStepBack(size_t i,
             size_t &ending, std::vector<size_t> &startingOccurance) const;
-    std::string* m_sequence;
+
     static std::map<char,char> constructCounterpart();
     static const std::map<char,char> s_counterpartMapper;
 
