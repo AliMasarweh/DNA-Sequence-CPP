@@ -150,11 +150,19 @@ DNASequence DNASequence::pairing() const {
 }
 
 size_t DNASequence::find(string seq) const {
-    size_t indx = m_sequence.find(seq);
-    if(indx == string::npos)
-        // return -1;
-        throw DNASequenceException("Seqeunce is not found!");
-    return indx;
+    return m_sequence.find(seq);
+}
+
+
+size_t DNASequence::count(std::string seq) const
+{
+    size_t ans = 0, i = 0;
+    while(( i = this->m_sequence.substr(i).find(seq)) != string::npos)
+    {
+        ++ans;
+    }
+
+    return ans;
 }
 
 vector<size_t> DNASequence::findAll(string seq) const {
@@ -252,4 +260,8 @@ void DNASequence::readFromFile(string path) {
     file.close();
 }
 
-
+DNASequence &DNASequence::concat(DNASequence &dnaSequence)
+{
+    this->m_sequence += dnaSequence.m_sequence;
+    return *this;
+}

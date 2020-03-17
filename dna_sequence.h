@@ -82,8 +82,11 @@ public:
     DNASequence slice(size_t startingIndx, size_t endingIndx) const;
     DNASequence pairing() const;
     size_t find(std::string seq) const;
+    size_t count(std::string seq) const;
     std::vector<size_t> findAll(std::string seq) const;
     std::vector<std::pair<size_t , size_t> > findConsensus() const;
+
+    DNASequence& concat(DNASequence& dnaSequence);
 
     std::string asString() const;
 
